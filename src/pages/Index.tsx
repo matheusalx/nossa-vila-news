@@ -14,16 +14,26 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Hero Section */}
-          <section className="mb-12">
+      <main>
+        {/* Hero Section - Full Width */}
+        <section className="container mx-auto px-4 py-8">
+          <div className="max-w-7xl mx-auto">
             <NewsCarousel news={featuredNews} />
-          </section>
+          </div>
+        </section>
 
-          <div className="grid lg:grid-cols-4 gap-8">
-            {/* Main content */}
-            <div className="lg:col-span-3 space-y-8">
+        {/* Main Content with Sidebar Ads */}
+        <div className="grid lg:grid-cols-12 min-h-screen">
+          {/* Left Sidebar - Ads */}
+          <aside className="hidden lg:block lg:col-span-2 bg-ad-background/50 p-4 space-y-6 sticky top-0 h-screen overflow-y-auto">
+            <AdSpace position="sidebar" title="Publicidade Premium" />
+            <AdSpace position="sidebar" title="Parceiros Comerciais" />
+            <AdSpace position="sidebar" title="Eventos da Cidade" />
+          </aside>
+
+          {/* Main Content */}
+          <div className="lg:col-span-8 container mx-auto px-4 py-8">
+            <div className="max-w-5xl mx-auto space-y-8">
               {/* Latest News Section */}
               <section>
                 <div className="flex items-center justify-between mb-6">
@@ -31,28 +41,44 @@ const Index = () => {
                   <div className="h-px bg-border flex-1 ml-4" />
                 </div>
                 
-                <div className="grid md:grid-cols-2 gap-6">
-                  {latestNews.map((news) => (
+                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                  {latestNews.slice(0, 6).map((news) => (
                     <Link key={news.id} to={`/news/${news.id}`}>
                       <NewsCard {...news} />
                     </Link>
                   ))}
                 </div>
+
+                {/* More News Section */}
+                <div className="border-t border-border pt-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xl font-bold text-foreground">Mais Notícias</h3>
+                    <div className="h-px bg-border flex-1 ml-4" />
+                  </div>
+                  
+                  <div className="grid md:grid-cols-3 gap-4">
+                    {latestNews.slice(6).map((news) => (
+                      <Link key={news.id} to={`/news/${news.id}`}>
+                        <NewsCard {...news} size="small" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </section>
 
               {/* Mobile Ad Space */}
               <div className="lg:hidden">
-                <AdSpace position="banner" title="Espaço Publicitário" />
+                <AdSpace position="banner" title="Espaço Publicitário Mobile" />
               </div>
             </div>
-
-            {/* Sidebar */}
-            <div className="space-y-6">
-              <AdSpace position="sidebar" title="Publicidade Premium" />
-              <AdSpace position="sidebar" title="Parceiros da Cidade" />
-              <AdSpace position="sidebar" title="Classificados" />
-            </div>
           </div>
+
+          {/* Right Sidebar - Ads */}
+          <aside className="hidden lg:block lg:col-span-2 bg-ad-background/50 p-4 space-y-6 sticky top-0 h-screen overflow-y-auto">
+            <AdSpace position="sidebar" title="Destaque Publicitário" />
+            <AdSpace position="sidebar" title="Classificados" />
+            <AdSpace position="sidebar" title="Anuncie Aqui" />
+          </aside>
         </div>
       </main>
 
