@@ -76,6 +76,7 @@ export default {
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',
+        'gradient-header': 'var(--gradient-header)',
         'gradient-news': 'var(--gradient-news)',
       },
       boxShadow: {

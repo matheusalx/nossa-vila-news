@@ -56,8 +56,9 @@
     --input: 214 15% 88%;
     --ring: 213 94% 32%;
 
-    /* Gradients for hero sections */
+    /* Gradients for hero sections and header */
     --gradient-hero: linear-gradient(135deg, hsl(213 94% 32%), hsl(213 94% 42%));
+    --gradient-header: linear-gradient(135deg, hsl(213 94% 32%), hsl(213 80% 38%));
     --gradient-news: linear-gradient(180deg, transparent, hsl(0 0% 0% / 0.6));
     
     /* Shadows for cards and elevation */
