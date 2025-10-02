@@ -43,6 +43,15 @@
     --news-urgent-foreground: 0 0% 98%;
     --news-category: 213 94% 32%;
     --news-date: 215 15% 45%;
+    
+    /* Category colors */
+    --category-politica: 0 65% 51%;
+    --category-esporte: 142 76% 36%;
+    --category-cultura: 262 83% 58%;
+    --category-economia: 45 93% 47%;
+    --category-saude: 217 91% 60%;
+    --category-educacao: 24 95% 53%;
+    --category-meioambiente: 142 71% 45%;
 
     /* Advertisement spaces */
     --ad-background: 210 15% 97%;

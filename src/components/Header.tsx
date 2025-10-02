@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { Search, Menu, MapPin, Clock, Bell, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+interface HeaderProps {
+  onCategoryChange?: (category: string) => void;
+  onSearchChange?: (query: string) => void;
+  activeCategory?: string;
+}
+
 const categories = [
   'Todas',
   'Política',
@@ -13,9 +19,27 @@ const categories = [
   'Meio Ambiente'
 ];
 
-export const Header = () => {
-  const [activeCategory, setActiveCategory] = useState('Todas');
+export const Header: React.FC<HeaderProps> = ({ 
+  onCategoryChange, 
+  onSearchChange,
+  activeCategory: externalActiveCategory 
+}) => {
+  const [internalActiveCategory, setInternalActiveCategory] = useState('Todas');
   const [searchFocused, setSearchFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const activeCategory = externalActiveCategory || internalActiveCategory;
+
+  const handleCategoryClick = (category: string) => {
+    setInternalActiveCategory(category);
+    onCategoryChange?.(category);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    onSearchChange?.(query);
+  };
 
   return (
     <header className="relative sticky top-0 z-50 overflow-hidden">
@@ -74,6 +98,8 @@ export const Header = () => {
                 <input
                   type="text"
                   placeholder="Buscar notícias, categorias..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
                   className="px-3 py-3 bg-transparent border-0 text-white placeholder-white/70 focus:outline-none w-64"
                   onFocus={() => setSearchFocused(true)}
                   onBlur={() => setSearchFocused(false)}
@@ -98,7 +124,7 @@ export const Header = () => {
                 key={category}
                 variant="ghost"
                 size="sm"
-                onClick={() => setActiveCategory(category)}
+                onClick={() => handleCategoryClick(category)}
                 className={`text-white/90 hover:bg-white/20 hover:text-white transition-all duration-200 font-medium px-4 py-2 rounded-lg backdrop-blur-sm border ${
                   activeCategory === category 
                     ? 'bg-white/20 text-white border-white/30 shadow-lg' 

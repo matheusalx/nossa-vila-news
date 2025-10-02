@@ -1,13 +1,30 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Share2, Calendar, User, Tag } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Tag, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getNewsById } from '@/data/mockNews';
+import { Badge } from '@/components/ui/badge';
+import { getNewsById, getRelatedNews } from '@/data/mockNews';
 import { AdSpace } from '@/components/AdSpace';
+import { SocialShare } from '@/components/SocialShare';
+import { NewsCard } from '@/components/NewsCard';
 
 const NewsPage = () => {
   const { id } = useParams<{ id: string }>();
   const news = id ? getNewsById(id) : null;
+  const relatedNews = news ? getRelatedNews(news.id, news.category) : [];
+
+  const getCategoryVariant = (cat: string) => {
+    const variants: Record<string, string> = {
+      'Política': 'politica',
+      'Esporte': 'esporte',
+      'Cultura': 'cultura',
+      'Economia': 'economia',
+      'Saúde': 'saude',
+      'Educação': 'educacao',
+      'Meio Ambiente': 'meioambiente'
+    };
+    return variants[cat] as any || 'default';
+  };
 
   if (!news) {
     return (
@@ -38,9 +55,9 @@ const NewsPage = () => {
               {/* Article header */}
               <div className="space-y-4">
                 {news.isUrgent && (
-                  <div className="inline-block bg-news-urgent text-news-urgent-foreground px-3 py-1 rounded-md text-sm font-bold">
+                  <Badge variant="destructive" className="animate-pulse">
                     URGENTE
-                  </div>
+                  </Badge>
                 )}
                 
                 <h1 className="text-3xl lg:text-4xl font-bold leading-tight text-foreground">
@@ -62,15 +79,15 @@ const NewsPage = () => {
                     <span>{news.publishDate}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <Tag className="h-4 w-4" />
-                    <span className="bg-news-category text-white px-2 py-1 rounded text-xs">
-                      {news.category}
-                    </span>
+                    <Eye className="h-4 w-4" />
+                    <span>{news.viewCount.toLocaleString()} visualizações</span>
                   </div>
-                  <Button variant="ghost" size="sm" className="ml-auto">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Compartilhar
-                  </Button>
+                  <Badge variant={getCategoryVariant(news.category)}>
+                    {news.category}
+                  </Badge>
+                  <div className="ml-auto">
+                    <SocialShare title={news.title} />
+                  </div>
                 </div>
               </div>
 
@@ -91,6 +108,22 @@ const NewsPage = () => {
                   </p>
                 ))}
               </div>
+
+              {/* Related News */}
+              {relatedNews.length > 0 && (
+                <div className="border-t border-border pt-8">
+                  <h3 className="text-xl font-bold text-foreground mb-6">
+                    Notícias Relacionadas
+                  </h3>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    {relatedNews.map((related) => (
+                      <Link key={related.id} to={`/news/${related.id}`}>
+                        <NewsCard {...related} size="small" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Mobile ad space */}
               <div className="lg:hidden">

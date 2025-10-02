@@ -52,6 +52,15 @@ export default {
           urgent: "hsl(var(--news-urgent))",
           "urgent-foreground": "hsl(var(--news-urgent-foreground))",
           category: "hsl(var(--news-category))",
+        },
+        category: {
+          politica: "hsl(var(--category-politica))",
+          esporte: "hsl(var(--category-esporte))",
+          cultura: "hsl(var(--category-cultura))",
+          economia: "hsl(var(--category-economia))",
+          saude: "hsl(var(--category-saude))",
+          educacao: "hsl(var(--category-educacao))",
+          meioambiente: "hsl(var(--category-meioambiente))",
           date: "hsl(var(--news-date))",
         },
         ad: {

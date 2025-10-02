@@ -1,5 +1,6 @@
 import React from 'react';
-import { Clock, User, Tag } from 'lucide-react';
+import { Clock, User, Tag, Eye } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface NewsCardProps {
   id: string;
@@ -11,6 +12,7 @@ interface NewsCardProps {
   category: string;
   isUrgent?: boolean;
   size?: 'small' | 'medium' | 'large';
+  viewCount: number;
 }
 
 export const NewsCard: React.FC<NewsCardProps> = ({
@@ -22,8 +24,21 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   publishDate,
   category,
   isUrgent = false,
-  size = 'medium'
+  size = 'medium',
+  viewCount
 }) => {
+  const getCategoryVariant = (cat: string) => {
+    const variants: Record<string, string> = {
+      'Política': 'politica',
+      'Esporte': 'esporte',
+      'Cultura': 'cultura',
+      'Economia': 'economia',
+      'Saúde': 'saude',
+      'Educação': 'educacao',
+      'Meio Ambiente': 'meioambiente'
+    };
+    return variants[cat] as any || 'default';
+  };
   const sizeClasses = {
     small: 'h-48',
     medium: 'h-64',
@@ -41,14 +56,14 @@ export const NewsCard: React.FC<NewsCardProps> = ({
         <div className="absolute inset-0 bg-gradient-news opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
         {isUrgent && (
-          <div className="absolute top-3 left-3 bg-news-urgent text-news-urgent-foreground px-2 py-1 rounded-md text-xs font-bold">
+          <Badge variant="destructive" className="absolute top-3 left-3 animate-pulse">
             URGENTE
-          </div>
+          </Badge>
         )}
         
-        <div className="absolute bottom-3 left-3 bg-news-category text-white px-2 py-1 rounded-md text-xs font-medium">
+        <Badge variant={getCategoryVariant(category)} className="absolute bottom-3 left-3">
           {category}
-        </div>
+        </Badge>
       </div>
       
       <div className="p-4 space-y-3">
@@ -61,13 +76,19 @@ export const NewsCard: React.FC<NewsCardProps> = ({
         </p>
         
         <div className="flex items-center justify-between text-xs text-news-date pt-2 border-t border-border">
-          <div className="flex items-center space-x-1">
-            <User className="h-3 w-3" />
-            <span>{author}</span>
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-1">
+              <User className="h-3 w-3" />
+              <span>{author}</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Clock className="h-3 w-3" />
+              <span>{publishDate}</span>
+            </div>
           </div>
-          <div className="flex items-center space-x-1">
-            <Clock className="h-3 w-3" />
-            <span>{publishDate}</span>
+          <div className="flex items-center space-x-1 text-muted-foreground">
+            <Eye className="h-3 w-3" />
+            <span>{viewCount.toLocaleString()}</span>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ export interface NewsItem {
   category: string;
   isUrgent?: boolean;
   isFeatured?: boolean;
+  viewCount: number;
 }
 
 export const mockNews: NewsItem[] = [
@@ -25,7 +26,8 @@ A nova biblioteca contará com um acervo inicial de 50 mil livros, salas de estu
     author: 'Maria Silva',
     publishDate: 'Há 2 horas',
     category: 'Cultura',
-    isFeatured: true
+    isFeatured: true,
+    viewCount: 1247
   },
   {
     id: '2',
@@ -40,7 +42,8 @@ A celebração tomou conta das ruas, com milhares de pessoas comemorando até al
     author: 'Carlos Santos',
     publishDate: 'Há 4 horas',
     category: 'Esporte',
-    isFeatured: true
+    isFeatured: true,
+    viewCount: 2341
   },
   {
     id: '3',
@@ -56,7 +59,8 @@ O hospital oferece especialidades como cardiologia, neurologia, ortopedia e pedi
     publishDate: 'Há 1 hora',
     category: 'Saúde',
     isUrgent: true,
-    isFeatured: true
+    isFeatured: true,
+    viewCount: 3892
   },
   {
     id: '4',
@@ -70,7 +74,8 @@ A gastronomia local foi outro destaque, com barracas oferecendo pratos tradicion
     image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800',
     author: 'Pedro Oliveira',
     publishDate: 'Há 6 horas',
-    category: 'Cultura'
+    category: 'Cultura',
+    viewCount: 892
   },
   {
     id: '5',
@@ -84,7 +89,8 @@ Os materiais coletados geram renda para 40 famílias de catadores organizados em
     image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800',
     author: 'Marina Verde',
     publishDate: 'Há 8 horas',
-    category: 'Meio Ambiente'
+    category: 'Meio Ambiente',
+    viewCount: 1523
   },
   {
     id: '6',
@@ -98,7 +104,8 @@ Os primeiros resultados mostram maior engajamento dos estudantes e melhora no de
     image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800',
     author: 'Prof. Roberto Lima',
     publishDate: 'Há 12 horas',
-    category: 'Educação'
+    category: 'Educação',
+    viewCount: 1876
   },
   {
     id: '7',
@@ -112,7 +119,8 @@ A iniciativa já mostra resultados: o número de ciclistas nas ruas aumentou 60%
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
     author: 'Lucas Ferreira',
     publishDate: 'Há 14 horas',
-    category: 'Meio Ambiente'
+    category: 'Meio Ambiente',
+    viewCount: 743
   },
   {
     id: '8',
@@ -126,7 +134,8 @@ A iniciativa já atraiu mais de 50 mil visitantes em seu primeiro mês, moviment
     image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800',
     author: 'Chef Marina Gomes',
     publishDate: 'Há 18 horas',
-    category: 'Economia'
+    category: 'Economia',
+    viewCount: 2156
   },
   {
     id: '9',
@@ -140,7 +149,8 @@ Os cursos oferecidos incluem padaria, costura, informática básica e artesanato
     image: 'https://images.unsplash.com/photo-1559027692-86c55dd77113?w=800',
     author: 'Assistente Social Ana Paula',
     publishDate: 'Há 1 dia',
-    category: 'Política'
+    category: 'Política',
+    viewCount: 987
   },
   {
     id: '10',
@@ -154,7 +164,8 @@ A instalação faz parte do programa municipal "Cidade Ativa", que visa promover
     image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800',
     author: 'Prof. Carlos Eduardo',
     publishDate: 'Há 1 dia',
-    category: 'Esporte'
+    category: 'Esporte',
+    viewCount: 1432
   },
   {
     id: '11',
@@ -168,7 +179,8 @@ As obras retratam a história e cultura local, desde os primeiros habitantes at�
     image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800',
     author: 'Artista Visual João Santos',
     publishDate: 'Há 2 dias',
-    category: 'Cultura'
+    category: 'Cultura',
+    viewCount: 654
   },
   {
     id: '12',
@@ -182,7 +194,8 @@ A nova instalação atende uma população de aproximadamente 15 mil pessoas que
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800',
     author: 'Dra. Patricia Mendes',
     publishDate: 'Há 2 dias',
-    category: 'Saúde'
+    category: 'Saúde',
+    viewCount: 1098
   }
 ];
 
@@ -191,3 +204,6 @@ export const getLatestNews = () => mockNews.filter(news => !news.isFeatured);
 export const getNewsByCategory = (category: string) => 
   category === 'Todas' ? mockNews : mockNews.filter(news => news.category === category);
 export const getNewsById = (id: string) => mockNews.find(news => news.id === id);
+export const getMostReadNews = () => [...mockNews].sort((a, b) => b.viewCount - a.viewCount).slice(0, 5);
+export const getRelatedNews = (currentId: string, category: string) => 
+  mockNews.filter(news => news.id !== currentId && news.category === category).slice(0, 3);

@@ -12,6 +12,13 @@ const badgeVariants = cva(
         secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        politica: "border-transparent bg-category-politica text-white",
+        esporte: "border-transparent bg-category-esporte text-white",
+        cultura: "border-transparent bg-category-cultura text-white",
+        economia: "border-transparent bg-category-economia text-white",
+        saude: "border-transparent bg-category-saude text-white",
+        educacao: "border-transparent bg-category-educacao text-white",
+        meioambiente: "border-transparent bg-category-meioambiente text-white",
       },
     },
     defaultVariants: {
