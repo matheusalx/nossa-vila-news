@@ -1,12 +1,15 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, User, Tag, Eye } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { getNewsById, getRelatedNews } from '@/data/mockNews';
 import { AdSpace } from '@/components/AdSpace';
 import { SocialShare } from '@/components/SocialShare';
 import { NewsCard } from '@/components/NewsCard';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import { ScrollToTop } from '@/components/ScrollToTop';
+import { getRelativeTime } from '@/utils/dateUtils';
 
 const NewsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,13 +44,21 @@ const NewsPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <ScrollToTop />
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           {/* Navigation */}
-          <Link to="/" className="inline-flex items-center space-x-2 text-primary hover:underline mb-6">
+          <Link to="/" className="inline-flex items-center space-x-2 text-primary hover:underline mb-4">
             <ArrowLeft className="h-4 w-4" />
             <span>Voltar às notícias</span>
           </Link>
+          
+          <Breadcrumb 
+            items={[
+              { label: news.category },
+              { label: news.title }
+            ]} 
+          />
 
           <div className="grid lg:grid-cols-4 gap-8">
             {/* Main content */}
@@ -74,9 +85,12 @@ const NewsPage = () => {
                     <User className="h-4 w-4" />
                     <span>Por {news.author}</span>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>{news.publishDate}</span>
+                  <div className="flex flex-col space-y-0.5">
+                    <div className="flex items-center space-x-1">
+                      <Calendar className="h-4 w-4" />
+                      <span className="font-medium">{getRelativeTime(news.publishDate)}</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground/70 ml-5">{news.publishDate}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Eye className="h-4 w-4" />
@@ -117,9 +131,7 @@ const NewsPage = () => {
                   </h3>
                   <div className="grid md:grid-cols-3 gap-4">
                     {relatedNews.map((related) => (
-                      <Link key={related.id} to={`/news/${related.id}`}>
-                        <NewsCard {...related} size="small" />
-                      </Link>
+                      <NewsCard key={related.id} {...related} size="small" />
                     ))}
                   </div>
                 </div>
